@@ -2,6 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+<<<<<<< HEAD
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import {
@@ -10,11 +11,16 @@ import {
   SignedOut,
 } from "@clerk/clerk-react";
 
+=======
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useState } from "react";
+>>>>>>> 84c7b38fc5b3b77518c7d3f86d2a240e4463b512
 import Navigation from "@/components/Navigation";
 import Home from "@/pages/Home";
 import Tasks from "@/pages/Tasks";
 import Wallet from "@/pages/Wallet";
 import Leaderboard from "@/pages/Leaderboard";
+<<<<<<< HEAD
 import Profile from "@/pages/Profile";
 import NotFound from "@/pages/NotFound";
 
@@ -66,6 +72,37 @@ const App = () => {
         </TooltipProvider>
       </QueryClientProvider>
     </ClerkProvider>
+=======
+import NotFound from "./pages/NotFound";
+
+const queryClient = new QueryClient();
+
+const App = () => {
+  const [activeTab, setActiveTab] = useState("home");
+
+  const renderPage = () => {
+    switch (activeTab) {
+      case "home": return <Home />;
+      case "tasks": return <Tasks />;
+      case "wallet": return <Wallet />;
+      case "leaderboard": return <Leaderboard />;
+      case "profile": return <div className="p-6"><h1>Profile Coming Soon</h1></div>;
+      default: return <Home />;
+    }
+  };
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <div className="relative">
+          {renderPage()}
+          <Navigation activeTab={activeTab} onTabChange={setActiveTab} />
+        </div>
+      </TooltipProvider>
+    </QueryClientProvider>
+>>>>>>> 84c7b38fc5b3b77518c7d3f86d2a240e4463b512
   );
 };
 
