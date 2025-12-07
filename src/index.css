@@ -2,13 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-<<<<<<< HEAD
 html, body {
   background: #f7f3ff;
   margin: 0;
   padding: 0;
 }
-=======
 /* Walksy Design System - PhonePe Inspired Clean UI */
 
 @layer base {
@@ -154,4 +152,3 @@ html, body {
     box-shadow: var(--shadow-lg);
   }
 }
->>>>>>> 84c7b38fc5b3b77518c7d3f86d2a240e4463b512
