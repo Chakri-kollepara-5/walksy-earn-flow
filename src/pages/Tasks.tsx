@@ -1,13 +1,23 @@
 import { useState } from "react";
-import { Search, Filter, MapPin, List, SlidersHorizontal } from "lucide-react";
+import {
+  Search,
+  Filter,
+  MapPin,
+  List,
+  SlidersHorizontal,
+  CheckCircle,
+} from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import TaskCard from "@/components/TaskCard";
+import { useToast } from "@/components/ui/use-toast";
 
 const Tasks = () => {
   const [viewMode, setViewMode] = useState<"list" | "map">("list");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
+
+  const { toast } = useToast();
 
   const categories = [
     { id: "all", label: "All", count: 24 },
@@ -101,6 +111,17 @@ const Tasks = () => {
   });
 
   const handleTaskAccept = (taskId: string) => {
+    toast({
+      title: "Task Accepted",
+      description: "You’ve successfully accepted the task. Execute fast.",
+      action: (
+        <div className="flex items-center gap-1 text-green-600">
+          <CheckCircle size={16} />
+          <span className="text-xs font-medium">Confirmed</span>
+        </div>
+      ),
+    });
+
     console.log("Accepted task:", taskId);
   };
 
@@ -110,7 +131,9 @@ const Tasks = () => {
       <header className="bg-gradient-to-br from-primary to-primary-dark text-white p-6 md:p-8">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold">Available Tasks</h1>
+            <h1 className="text-2xl md:text-3xl font-bold">
+              Available Tasks
+            </h1>
             <p className="text-sm md:text-base text-white/80">
               {filteredTasks.length} tasks near you
             </p>
@@ -137,7 +160,7 @@ const Tasks = () => {
           </div>
         </div>
 
-        {/* Search bar */}
+        {/* Search */}
         <div className="relative mb-4">
           <Search
             className="absolute left-3 top-1/2 -translate-y-1/2 text-white/70"
@@ -161,7 +184,7 @@ const Tasks = () => {
               }
               size="sm"
               onClick={() => setSelectedCategory(category.id)}
-              className="whitespace-nowrap flex-shrink-0 text-white border-white/20 rounded-full"
+              className="whitespace-nowrap text-white border-white/20 rounded-full"
             >
               {category.label} ({category.count})
             </Button>
@@ -169,11 +192,11 @@ const Tasks = () => {
         </div>
       </header>
 
-      {/* Sorting bar */}
-      <div className="flex items-center justify-between p-4 bg-card border-b border-border">
+      {/* Sort bar */}
+      <div className="flex items-center justify-between p-4 bg-card border-b">
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <SlidersHorizontal size={16} />
-          <span>Sorted by: Distance</span>
+          Sorted by: Distance
         </div>
 
         <Button variant="ghost" size="sm" className="text-primary">
@@ -185,7 +208,7 @@ const Tasks = () => {
       {/* List View */}
       {viewMode === "list" && (
         <div className="p-4 md:p-6">
-          {filteredTasks.length > 0 ? (
+          {filteredTasks.length ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
               {filteredTasks.map((task) => (
                 <TaskCard
@@ -197,12 +220,10 @@ const Tasks = () => {
             </div>
           ) : (
             <div className="text-center py-12">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-muted/40 flex items-center justify-center">
-                <Search size={24} className="text-muted-foreground" />
-              </div>
+              <Search size={32} className="mx-auto text-muted-foreground mb-3" />
               <h3 className="text-lg font-semibold">No tasks found</h3>
-              <p className="text-muted-foreground text-sm">
-                Try adjusting your search or filters
+              <p className="text-sm text-muted-foreground">
+                Adjust your search or filters
               </p>
             </div>
           )}
@@ -212,10 +233,10 @@ const Tasks = () => {
       {/* Map View */}
       {viewMode === "map" && (
         <div className="p-4 md:p-6">
-          <div className="rounded-xl overflow-hidden shadow-md border h-96 flex items-center justify-center">
-            <MapPin size={48} className="text-primary mb-4" />
+          <div className="h-96 rounded-xl border flex flex-col items-center justify-center">
+            <MapPin size={48} className="text-primary mb-2" />
             <p className="text-muted-foreground text-lg">
-              Map View coming soon!
+              Map View coming soon
             </p>
           </div>
         </div>
