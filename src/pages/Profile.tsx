@@ -74,53 +74,41 @@ const Profile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white pb-24">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-purple-100 pb-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+
         {/* HEADER */}
-        <div className="pt-12 pb-10 grid grid-cols-1 lg:grid-cols-3 gap-10 items-center">
-          <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
-            <Avatar className="h-28 w-28 shadow-lg border-4 border-purple-200">
-              <AvatarImage src="https://i.imgur.com/1whoCM3.jpeg" />
-              <AvatarFallback>CK</AvatarFallback>
-            </Avatar>
+        <div className="pt-12 pb-12 grid grid-cols-1 lg:grid-cols-3 gap-10 items-center">
+          <Card className="p-8 rounded-3xl shadow-lg bg-white/80 backdrop-blur">
+            <div className="flex flex-col items-center text-center">
+              <Avatar className="h-28 w-28 border-4 border-purple-300 shadow-md">
+                <AvatarImage src="https://i.imgur.com/1whoCM3.jpeg" />
+                <AvatarFallback>CK</AvatarFallback>
+              </Avatar>
 
-            <h1 className="text-3xl font-extrabold mt-4 text-purple-700">
-              {user.name}
-            </h1>
-            <p className="text-muted-foreground text-sm">{user.email}</p>
+              <h1 className="text-3xl font-extrabold mt-4 text-purple-700">
+                {user.name}
+              </h1>
+              <p className="text-sm text-muted-foreground">
+                {user.email}
+              </p>
 
-            <Button className="mt-5 px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl">
-              Edit Profile
-            </Button>
-          </div>
+              <Button className="mt-6 px-6 rounded-xl bg-purple-600 hover:bg-purple-700">
+                Edit Profile
+              </Button>
+            </div>
+          </Card>
 
           {/* STATS */}
-          <Card className="lg:col-span-2 p-6 md:p-8 rounded-2xl">
-            <h2 className="text-xl font-semibold mb-6 text-purple-700">
+          <Card className="lg:col-span-2 p-8 rounded-3xl shadow-lg">
+            <h2 className="text-xl font-semibold text-purple-700 mb-6">
               Weekly Performance
             </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-              <div className="bg-purple-50 rounded-xl p-5 text-center">
-                <p className="text-2xl font-bold text-purple-700">
-                  {user.stepsThisWeek}
-                </p>
-                <p className="text-sm text-muted-foreground">Steps</p>
-              </div>
-
-              <div className="bg-purple-50 rounded-xl p-5 text-center">
-                <p className="text-2xl font-bold text-purple-700">
-                  {user.totalKm} km
-                </p>
-                <p className="text-sm text-muted-foreground">Distance</p>
-              </div>
-
-              <div className="bg-purple-50 rounded-xl p-5 text-center">
-                <p className="text-2xl font-bold text-purple-700">
-                  #{user.rank}
-                </p>
-                <p className="text-sm text-muted-foreground">Rank</p>
-              </div>
+              <Stat label="Steps" value={user.stepsThisWeek} />
+              <Stat label="Distance" value={`${user.totalKm} km`} />
+              <Stat label="Rank" value={`#${user.rank}`} />
             </div>
           </Card>
         </div>
@@ -130,21 +118,21 @@ const Profile = () => {
         {/* BOTTOM */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
           {/* WALLET */}
-          <Card className="lg:col-span-2 p-6 md:p-8 rounded-2xl">
+          <Card className="lg:col-span-2 p-8 rounded-3xl shadow-xl bg-gradient-to-br from-white to-purple-50">
             <h2 className="text-xl font-semibold text-purple-700">
               Wallet Balance
             </h2>
 
-            <p className="text-5xl font-bold text-green-600 mt-4">
+            <p className="text-6xl font-extrabold text-green-600 mt-6">
               ₹{user.wallet}
             </p>
-            <p className="text-muted-foreground text-sm mt-2">
-              Your total earnings
+            <p className="text-sm text-muted-foreground mt-2">
+              Available balance
             </p>
 
             <Button
               onClick={() => setWithdrawOpen(true)}
-              className="mt-6 w-full sm:w-auto bg-purple-600 hover:bg-purple-700 text-white py-3 px-10 rounded-xl text-lg flex items-center gap-2"
+              className="mt-8 bg-purple-600 hover:bg-purple-700 rounded-xl px-10 py-6 text-lg flex items-center gap-2"
             >
               <Wallet size={20} />
               Withdraw Money
@@ -152,13 +140,13 @@ const Profile = () => {
           </Card>
 
           {/* ACTIONS */}
-          <Card className="p-6 md:p-8 rounded-2xl flex flex-col justify-between">
+          <Card className="p-8 rounded-3xl shadow-lg flex flex-col justify-between">
             <div>
               <h2 className="text-xl font-semibold text-purple-700">
                 Account Actions
               </h2>
-              <p className="text-sm text-muted-foreground mt-2">
-                Manage your account
+              <p className="text-sm text-muted-foreground mt-1">
+                Manage session & security
               </p>
             </div>
 
@@ -166,7 +154,7 @@ const Profile = () => {
               onClick={handleLogout}
               disabled={loggingOut}
               variant="destructive"
-              className="mt-6 w-full flex items-center gap-2"
+              className="mt-8 w-full flex items-center gap-2"
             >
               <LogOut size={20} />
               {loggingOut ? "Logging out..." : "Logout"}
@@ -175,9 +163,9 @@ const Profile = () => {
         </div>
       </div>
 
-      {/* WITHDRAW POPUP */}
+      {/* WITHDRAW DIALOG */}
       <Dialog open={withdrawOpen} onOpenChange={setWithdrawOpen}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="rounded-2xl sm:max-w-md">
           <DialogHeader>
             <DialogTitle>Withdraw Money</DialogTitle>
             <DialogDescription>
@@ -185,14 +173,13 @@ const Profile = () => {
             </DialogDescription>
           </DialogHeader>
 
-          <div className="space-y-4 mt-4">
-            <Input
-              type="number"
-              placeholder="Enter amount"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-            />
-          </div>
+          <Input
+            type="number"
+            placeholder="Enter amount"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            className="mt-4"
+          />
 
           <DialogFooter className="mt-6">
             <Button variant="outline" onClick={() => setWithdrawOpen(false)}>
@@ -207,5 +194,12 @@ const Profile = () => {
     </div>
   );
 };
+
+const Stat = ({ label, value }: { label: string; value: any }) => (
+  <div className="bg-purple-50 rounded-2xl p-6 text-center shadow-sm">
+    <p className="text-3xl font-bold text-purple-700">{value}</p>
+    <p className="text-sm text-muted-foreground mt-1">{label}</p>
+  </div>
+);
 
 export default Profile;
